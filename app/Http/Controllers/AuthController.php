@@ -3,48 +3,70 @@
 namespace App\Http\Controllers;
 
 use App\Models\Siswa;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
+
 class AuthController extends Controller
 {
+
+    // Gw mau coba bikin ini biar gausah milih "Login As" lagi, tapi gagal di siswa nya coba benerin dh
     public function login(Request $request)
     {
-        if ($request->login_as === 'Login As') {
-            return redirect()->route('login');
-        }
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required', 'min:8'],
+        ]);
 
-        if ($request->login_as === 'admin') {
+        // Check if the user is a student (Siswa)
+        $siswa = Siswa::where('email', $request->email)->first();
+        $user = User::where('email', $request->email)->first();
 
-            $credentials = $request->validate([
-                'email' => ['required', 'email'],
-                'password' => ['required', 'min:8'],
-            ]);
-
-            if (Auth::attempt($credentials)) {
-                $request->session()->regenerate();
-
-                return redirect()->route('dashboard_admin');
-
+        // If not a student, check if it's an admin (User)
+        if (!$siswa) {
+            if (!$user || !Hash::check($request->password, $user->password)) {
+                throw ValidationException::withMessages([
+                    'email' => ['The provided credentials are incorrect.'],
+                ]);
             }
-
-            return redirect()->route('login');
-
-        } else if ($request->login_as === 'siswa') {
-            $credentials = $request->validate([
-                'email' => ['required', 'email'],
-                'password' => ['required', 'min:8'],
-            ]);
-
-            if (Auth::guard('siswa')->attempt($credentials)) {
-                $request->session()->regenerate();
-
-                return redirect()->route('dashboard_siswa');
-            } else {
-                return redirect()->route('login');
-            }
+            Auth::login($user);
+            return redirect()->route('dashboard_admin');
         }
+        else
+        {
+            Auth::guard($siswa->role_status)->attempt($credentials);
+            if (!Hash::check($request->password, $siswa->password)) {
+                throw ValidationException::withMessages([
+                    'email' => ['The provided credentials are incorrect.'],
+                ]);
+            }
+            Auth::login($siswa);
+            return redirect()->route('dashboard_siswa');
+        } 
+        
+
+        // if (!$siswa) {
+        //     if (!$user || !Hash::check($request->password, $user->password)) {
+        //         throw ValidationException::withMessages([
+        //             'email' => ['The provided credentials are incorrect.'],
+        //         ]);
+        //     }
+        //     Auth::login($user);
+        //     return redirect()->route('dashboard_admin');
+        // }
+
+        // // If it's a student
+        // else {
+        //     if (!Hash::check($request->password, $siswa->password)) {
+        //         throw ValidationException::withMessages([
+        //             'email' => ['The provided credentials are incorrect.'],
+        //         ]);
+        //     }
+        //     Auth::login($siswa);
+        //     return redirect()->route('dashboard_siswa');
+        // }
     }
 
     public function register(Request $request)

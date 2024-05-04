@@ -57,6 +57,8 @@ Route::prefix('siswa')->middleware('auth:siswa')->group(function () {
     // view
     Route::get('/dashboard', [TransaksisController::class, 'index_siswa'])->name('dashboard_siswa');
     Route::get('/profile_siswa', [LibraryController::class, 'profile_siswa'])->name('profile_siswa');
+    Route::get('/favourite', [LibraryController::class, 'favourite'])->name('favourite');
+    Route::get('/download', [LibraryController::class, 'download'])->name('download');
 
     // pinjam
     Route::post('/pinjam_buku/{id}', [TransaksisController::class, 'pinjam_buku'])->name('pinjam_buku');

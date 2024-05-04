@@ -17,6 +17,16 @@ class LibraryController extends Controller
         return view('index_admin', compact("bukus"));
     }
 
+    public function favourite()
+    {
+        return view('favourite');
+    }
+
+    public function download()
+    {
+        return view('download');
+    }
+    
     public function admin_pinjam()
     {
         $bukus = Buku::all();
