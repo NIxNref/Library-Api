@@ -49,7 +49,6 @@ class AuthController extends Controller
     function Logout(Request $request)
     {
         try {
-            $request->user()->currentAccessToken()->delete(); // Revoking the current access token
             $response = ['status' => 200, 'message' => 'Logout successfully'];
             return response()->json($response);
         } catch (\Exception $e) {

@@ -2,7 +2,8 @@
     navbar-scroll="true">
     <div class="container-fluid py-1 px-3">
         <nav aria-label="breadcrumb">
-            <h6 class="font-weight-bolder fs-4 mb-0 text-primary">Welcome {{ Auth::user()->name }}</h6>
+            <h6 class="font-weight-bolder fs-4 mb-0 text-primary">Welcome {{ Auth::user()->name }}
+                ({{ Auth::user()->role_status }})</h6>
             {{-- <h6 class="font-weight-bolder mb-0">{{ ucwords(request()->route()->uri) }}</h6> --}}
             {{-- {{ Auth::user()->id }} --}}
         </nav>

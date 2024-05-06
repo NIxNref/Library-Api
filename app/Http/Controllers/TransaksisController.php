@@ -31,6 +31,10 @@ class TransaksisController extends Controller
             'qty' => 1,
         ]);
 
+        // Decrease the quantity of the book
+        $buku->stok_buku -= 1;
+        $buku->save();
+
         return redirect()->route('dashboard_siswa');
     }
 
@@ -43,6 +47,9 @@ class TransaksisController extends Controller
     public function delete_data_pinjam($id)
     {
         $trxs = Transaksis::findOrFail($id);
+        $buku = Buku::findOrFail($trxs->buku_id);
+        $buku->stok_buku += 1;
+        $buku->save();
         $trxs->delete();
         return redirect()->route('data_pinjam')->with('success', 'Data berhasil dihapus');
     }
