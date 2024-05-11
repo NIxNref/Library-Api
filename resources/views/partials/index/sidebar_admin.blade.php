@@ -1,20 +1,13 @@
 <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 "
     id="sidenav-main">
-    <div class="sidenav-header">
-        <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
-            aria-hidden="true" id="iconSidenav"></i>
-        <a class="navbar-brand m-0" href="{{ route('profile_admin') }}">
-            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24"
-                style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;">
-                <path
-                    d="M12 2C6.579 2 2 6.579 2 12s4.579 10 10 10 10-4.579 10-10S17.421 2 12 2zm0 5c1.727 0 3 1.272 3 3s-1.273 3-3 3c-1.726 0-3-1.272-3-3s1.274-3 3-3zm-5.106 9.772c.897-1.32 2.393-2.2 4.106-2.2h2c1.714 0 3.209.88 4.106 2.2C15.828 18.14 14.015 19 12 19s-3.828-.86-5.106-2.228z">
-                </path>
-            </svg>
-            <span class="ms-1 font-weight-bold">Profile</span>
-        </a>
-    </div>
+    <a href="{{ route('dashboard_admin') }}"
+        class="text-center align-items-center justify-content-center d-flex text-decoration-none"
+        style="color: inherit; cursor: default">
+        <iconify-icon icon="basil:book-open-solid" width="40" height="40"></iconify-icon>
+        <span class="expletus-sans" style="font-size: 30px">TBPERPUS</span>
+    </a>
     <hr class="horizontal dark mt-0">
-    <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
+    <div class="collapse navbar-collapse w-auto " id="sidenav-collapse-main">
         <ul class="navbar-nav">
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('admin/dashboard') ? 'active' : '' }}"
@@ -40,7 +33,7 @@
                         <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1"
                             xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 
-                            
+
                             <title>shop </title>
                             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                 <g transform="translate(-1716.000000, -439.000000)" fill="#FFFFFF" fill-rule="nonzero">
@@ -78,6 +71,50 @@
                     <span class="nav-link-text ms-1">Data Siswa</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link {{ request()->is('admin/data_admin') ? 'active' : '' }}"
+                    href="{{ route('data_admin') }}">
+                    <div
+                        class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                            style="fill: {{ request()->is('admin/data_admin') ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 1)' }} ;transform: ;msFilter:;">
+                            <path
+                                d="M20 6c0-2.168-3.663-4-8-4S4 3.832 4 6v2c0 2.168 3.663 4 8 4s8-1.832 8-4V6zm-8 13c-4.337 0-8-1.832-8-4v3c0 2.168 3.663 4 8 4s8-1.832 8-4v-3c0 2.168-3.663 4-8 4z">
+                            </path>
+                            <path d="M20 10c0 2.168-3.663 4-8 4s-8-1.832-8-4v3c0 2.168 3.663 4 8 4s8-1.832 8-4v-3z">
+                            </path>
+                        </svg>
+                    </div>
+                    <span class="nav-link-text ms-1">Data Admin</span>
+                </a>
+            </li>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <li class="nav-item">
+                <a type="button" class="nav-link border-0 pointer" data-bs-toggle="modal"
+                    data-bs-target="#logoutModal">
+                    <div
+                        class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <iconify-icon icon="line-md:logout" width="25" height="25"></iconify-icon>
+                    </div>
+                    <span class="nav-link-text ms-1">Log out</span>
+                </a>
+            </li>
+
         </ul>
+        {{-- <li class="d-flex align-items-center">
+            <button type="button" class="border-0 pointer" data-bs-toggle="modal" data-bs-target="#logoutModal">
+                <i class="fa fa-user me-sm-1"></i>
+                <span class="d-sm-inline d-none font-weight-bold fs-6">Log out</span>
+            </button>
+            @include('partials.modals.logout_modal')
+        </li> --}}
     </div>
 </aside>
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>

@@ -6,7 +6,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-xl-4 col-lg-5 col-md-6 d-flex flex-column mx-auto">
-                        <div class="card card-plain mt-8">
+                        <div class="card card-plain mt-8 raleway">
                             <div class="card-header pb-0 text-left bg-transparent">
                                 <h3 class="font-weight-bolder" style="color: var(--bs-semi-white)">HI EVERYONE</h3>
                                 <p class="mb-0" style="color: var(--bs-semi-white)">Welcome To TBPERPUS Enjoy !
@@ -38,7 +38,7 @@
                                 <p class="mb-4 text-sm mx-auto" style="color: var(--bs-semi-white)">
                                     Don't have an account?
                                     <a href="{{ route('register_user') }}"
-                                        class="text-decoration-underline font-weight-bold"
+                                        class="text-decoration-spacing text-decoration-underline font-weight-bold"
                                         style="color: var(--bs-semi-white)">Create account</a>
                                 </p>
                             </div>
@@ -53,4 +53,21 @@
             </div>
         </div>
     </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script>
+        // Check if there are any error messages from Laravel validation
+        @if ($errors->any())
+            // Loop through each error message and display it using SweetAlert
+            @foreach ($errors->all() as $error)
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: '{{ $error }}',
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+            @endforeach
+        @endif
+    </script>
 @endsection

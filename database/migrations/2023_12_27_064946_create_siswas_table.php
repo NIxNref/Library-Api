@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('role_status')->default('siswa');
+            $table->boolean('is_deleted')->default(0);
             $table->timestamps();
         });
     }

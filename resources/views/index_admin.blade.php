@@ -20,6 +20,13 @@
                                     <thead>
                                         <tr>
                                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                No.
+                                            </th>
+                                            <th
+                                                class="text-uppercase text-secondary text-xxs align-middle font-weight-bolder opacity-7">
+                                                Gambar
+                                            </th>
+                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 Judul</th>
                                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 Penerbit</th>
@@ -34,19 +41,29 @@
                                     <tbody>
                                         @foreach ($bukus as $buku)
                                             <tr>
-                                                <td class="px-3">
-                                                    <p class="text-xs text-secondary mb-0">{{ $buku->judul }}</p>
+                                                <td>
+                                                    <p class="text-center font-weight-bold mb-0">{{ $loop->iteration }}</p>
+                                                </td>
+                                                <td class="text-center">
+                                                    <img src="{{ Storage::url('public/posts/') . $buku->image }}"
+                                                        class="rounded" style="width: 150px">
                                                 </td>
                                                 <td class="px-3">
-                                                    <p class="text-xs text-secondary mb-0">{{ $buku->penerbit }}</p>
+                                                    <p class="text-xs text-secondary mb-0"
+                                                        style="text-transform: capitalize">{{ $buku->judul }}</p>
                                                 </td>
                                                 <td class="px-3">
-                                                    <p class="text-xs text-secondary mb-0">{{ $buku->pengarang }}</p>
+                                                    <p class="text-xs text-secondary mb-0"
+                                                        style="text-transform: capitalize">{{ $buku->penerbit }}</p>
+                                                </td>
+                                                <td class="px-3">
+                                                    <p class="text-xs text-secondary mb-0"
+                                                        style="text-transform:capitalize">{{ $buku->pengarang }}</p>
                                                 </td>
                                                 <td class="px-3">
                                                     <p class="text-xs text-secondary mb-0">{{ $buku->stok_buku }}</p>
                                                 </td>
-                                                <td class="d-flex gap-3">
+                                                <td class="gap-3">
                                                     <button type="button" class="btn bg-gradient-info"
                                                         data-bs-toggle="modal"
                                                         data-bs-target="#editBuku_{{ $buku->id }}"
@@ -54,11 +71,14 @@
                                                         Edit
                                                     </button>
                                                     @include('partials.buku.edit_buku')
-                                                    <form action="{{ route('buku.delete', $buku->id) }}" method="POST">
+                                                    <form id="deleteForm_{{ $buku->id }}"
+                                                        action="{{ route('buku.delete', $buku->id) }}" method="POST">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                                        <button type="button" class="btn btn-danger"
+                                                            onclick="confirmDelete({{ $buku->id }})">Delete</button>
                                                     </form>
+                                                </td>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -72,4 +92,45 @@
             </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script>
+        // Check if there are any error messages from Laravel validation
+        @if ($errors->any())
+            // Loop through each error message and display it using SweetAlert
+            @foreach ($errors->all() as $error)
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: '{{ $error }}',
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+            @endforeach
+        @elseif (session('success'))
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: '{{ session('success') }}',
+                showConfirmButton: false,
+                timer: 3000
+            });
+        @endif
+    </script>
+    <script>
+        function confirmDelete(id) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('deleteForm_' + id).submit();
+                }
+            })
+        }
+    </script>
 @endsection

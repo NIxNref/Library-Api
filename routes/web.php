@@ -35,21 +35,25 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     // view
     Route::get('/dashboard', [LibraryController::class, 'index_admin'])->name('dashboard_admin');
     Route::get('/data_siswa', [LibraryController::class, 'data_siswa'])->name('data_siswa');
+    Route::get('/data_admin', [LibraryController::class, 'data_admin'])->name('data_admin');
     Route::get('/data_pinjam', [TransaksisController::class, 'data_buku'])->name('data_pinjam');
     Route::get('/profile_admin', [LibraryController::class, 'profile_admin'])->name('profile_admin');
 
     // delete
     Route::delete('/buku/{id}', [LibraryController::class, 'delete_buku'])->name('buku.delete');
     Route::delete('/data_siswa/{id}', [LibraryController::class, 'delete_siswa'])->name('siswa.delete');
+    Route::delete('/data_admin/{id}', [LibraryController::class, 'delete_admin'])->name('admin.delete');
     Route::delete('/data_pinjam/{id}', [TransaksisController::class, 'delete_data_pinjam'])->name('data_pinjam.delete');
 
     // create
     Route::post('/buku', [LibraryController::class, 'create_buku'])->name('buku.create');
     Route::post('/data_siswa', [LibraryController::class, 'create_siswa'])->name('siswa.create');
+    Route::post('/data_admin', [LibraryController::class, 'create_admin'])->name('admin.create');
 
     // edit
     Route::put('/buku/{id}', [LibraryController::class, 'edit_buku'])->name('buku.edit');
     Route::put('/data_siswa/{id}', [LibraryController::class, 'edit_siswa'])->name('siswa.edit');
+    Route::put('/data_admin/{id}', [LibraryController::class, 'edit_admin'])->name('admin.edit');
 });
 
 // Siswa

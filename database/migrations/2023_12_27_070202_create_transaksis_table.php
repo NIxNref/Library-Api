@@ -25,6 +25,7 @@ return new class extends Migration {
             // $table->foreign('buku_id')->references('id')->on('bukus');
 
             $table->integer('qty')->default(1);
+            $table->boolean('is_deleted')->default(0);
             $table->timestamps();
         });
     }

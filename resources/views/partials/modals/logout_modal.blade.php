@@ -1,5 +1,5 @@
 <!-- Modal -->
-<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true">
+<div class="modal" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered position-relative">
         <div class="modal-content align-items-center">
             <div class="modal-header">
@@ -14,5 +14,4 @@
             </div>
         </div>
     </div>
-</div>
 </div>

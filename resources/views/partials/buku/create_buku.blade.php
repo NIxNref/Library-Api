@@ -9,10 +9,19 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('buku.create') }}" method="POST">
+                <form action="{{ route('buku.create') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body container-fluid">
                         <div class="mb-3">
+
+                            <label for="image" class="form-label">Gambar Buku</label>
+                            <input autocomplete="off" type="file" accept="image/*"
+                                class="form-control @error('image') is-invalid @enderror" id="image" name="image"
+                                value="{{ old('image') }}">
+                            @error('image')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+
                             <label for="judul" class="form-label">Judul Buku</label>
                             <input autocomplete="off" type="text"
                                 class="form-control @error('judul') is-invalid @enderror" id="judul" name="judul"

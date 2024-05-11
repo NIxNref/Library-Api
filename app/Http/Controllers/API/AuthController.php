@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Http\Request;
 use App\Models\Siswa;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
 
@@ -31,7 +32,7 @@ class AuthController extends Controller
 
     function Login(Request $request)
     {
-        $user = Siswa::where('email', $request->email)->first();
+        $user = Siswa::where('email', $request->email)->where('is_delete', 0)->first();
 
         if ($user && Hash::check($request->password, $user->password)) {
             $token = $user->createToken('Personal Access Token')->plainTextToken;
@@ -45,6 +46,43 @@ class AuthController extends Controller
             return response()->json($response);
         }
     }
+
+    function RegisterAdmin(Request $request)
+    {
+        try {
+            $admin = new User(); // Change the model to Admin
+            $admin->name = $request->name;
+            $admin->email = $request->email;
+            $admin->password = Hash::make($request->password);
+            $admin->save();
+            $response  = ['status' => 200, 'message' => 'Admin registered successfully', 'data' => $admin];
+            return response()->json($response);
+        } catch (Exception $e) {
+            $response = ['status' => 500, 'message' => $e->getMessage()];
+            return response()->json($response, 500);
+        }
+    }
+
+    function LoginAdmin(Request $request)
+    {
+        $admin = User::where('email', $request->email)->first(); // Change the model to Admin
+
+        if ($admin && Hash::check($request->password, $admin->password)) {
+            $token = $admin->createToken('Personal Access Token')->plainTextToken;
+            $response  = ['status' => 200, 'token' => $token, 'user' => $admin, 'message' => 'Admin logged in successfully'];
+            return response()->json($response);
+        } else if (!$admin) {
+            $response  = ['status' => 500, 'message' => 'No admin account found with this email'];
+            return response()->json($response);
+        } else if ($admin->is_deleted == 1) {
+            $response  = ['status' => 500, 'message' => 'No admin account found with this email'];
+            return response()->json($response);
+        } else {
+            $response  = ['status' => 500, 'message' => 'Wrong email or password! Please try again'];
+            return response()->json($response);
+        }
+    }
+
 
     function Logout(Request $request)
     {

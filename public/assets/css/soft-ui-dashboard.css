@@ -22,6 +22,8 @@
    * Copyright 2011-2022 Twitter, Inc.
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    */
+
+
 :root {
   --bs-blue: #63B3ED;
   --bs-indigo: #596CFF;
@@ -69,6 +71,8 @@
   --bs-body-bg-rgb: 255, 255, 255;
   --bs-font-sans-serif: Open Sans;
   --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --bs-font-expletus: "Expletus Sans", sans-serif;
+  --bs-font-raleway: "Raleway", sans-serif;
   --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
   --bs-body-font-family: var(--bs-font-sans-serif);
   --bs-body-font-size: 1rem;
@@ -10545,7 +10549,8 @@ fieldset:disabled .btn {
 }
 
 .text-decoration-underline {
-  text-decoration: underline !important;
+  text-underline-offset: 10px !important;
+  border-bottom-style: solid !important;
 }
 
 .text-decoration-line-through {
@@ -26693,6 +26698,18 @@ pre[class*="language-"] {
   .ps {
     overflow: auto !important;
   }
+}
+
+.expletus-sans {
+  font-family: var(--bs-font-expletus);
+  font-style: normal;
+  font-weight: 700;
+}
+
+.raleway {
+  font-family: var(--bs-font-raleway);
+  font-style: normal;
+  font-weight: 700;
 }
 
 /*# sourceMappingURL=dashboard-free.css.map */
