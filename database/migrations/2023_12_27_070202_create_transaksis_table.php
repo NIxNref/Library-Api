@@ -14,8 +14,8 @@ return new class extends Migration {
             $table->id();
 
             // Relation To Siswa Table
-            $table->unsignedBigInteger('siswa_id');
-            $table->string('name_siswa');
+            $table->unsignedBigInteger('user_id');
+            $table->string('name_user');
             // $table->foreign('siswa_id')->references('id')->on('siswas');
 
             // Relation To Buku Table
@@ -25,6 +25,7 @@ return new class extends Migration {
             // $table->foreign('buku_id')->references('id')->on('bukus');
 
             $table->integer('qty')->default(1);
+            $table->string('status')->default('pending');
             $table->boolean('is_deleted')->default(0);
             $table->timestamps();
         });

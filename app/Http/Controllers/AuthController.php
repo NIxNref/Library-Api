@@ -63,9 +63,8 @@ class AuthController extends Controller
     {
         $user = Siswa::create([
             'name' => $request->name,
-            'kelas' => $request->kelas,
             'email' => $request->email,
-            'role_status' => 'siswa',
+            'role_status' => 'user',
             'password' => Hash::make($request->password)
         ]);
 

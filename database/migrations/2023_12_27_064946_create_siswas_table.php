@@ -14,10 +14,9 @@ return new class extends Migration
         Schema::create('siswas', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('kelas');
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('role_status')->default('siswa');
+            $table->string('role_status')->default('user');
             $table->boolean('is_deleted')->default(0);
             $table->timestamps();
         });

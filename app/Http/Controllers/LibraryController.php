@@ -18,6 +18,19 @@ class LibraryController extends Controller
         return view('index_admin', compact("bukus"));
     }
 
+    public function detail_buku($id) {
+        $book = Buku::where('is_deleted', 0)->find($id);
+
+        if (!$book) {
+            // Handle case where book not found (e.g., return error message or redirect)
+            return abort(404);  // Example: return a 404 Not Found response
+        }
+
+        return $book;
+
+        // return view('buku_modals', compact("book"));
+    }
+
     public function favourite()
     {
         return view('favourite');
@@ -50,20 +63,18 @@ class LibraryController extends Controller
         // ]);
         Siswa::create([
             'name' => $request->nama,
-            'kelas' => $request->kelas,
             'email' => $request->email,
             'password' => bcrypt($request->password),
-            'role_status' => 'siswa',
+            'role_status' => 'user',
         ]);
         
 
-        return redirect()->route('data_siswa')->with('success', 'Akun Siswa created successfully.');
+        return redirect()->route('data_siswa')->with('success', 'Akun User created successfully.');
     }
     public function edit_siswa(Request $request, $id)
     {
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            'kelas' => 'required|string|max:255',
             'email' => 'required|email',
             'role_status' => 'required|string|max:255',
             'password' => 'required|string|min:8',
@@ -73,7 +84,7 @@ class LibraryController extends Controller
 
         $siswa = Siswa::findOrFail($id);
         $siswa->update($validatedData);
-        return redirect()->route('data_siswa')->with('success', 'Data Siswa berhasil diedit');
+        return redirect()->route('data_siswa')->with('success', 'Data User berhasil diedit');
     }
     public function delete_siswa($id)
     {
@@ -181,6 +192,7 @@ class LibraryController extends Controller
             'judul' => 'required|string|unique:bukus',
             'penerbit' => 'required|string',
             'pengarang' => 'required|string',
+            'deskripsi' => 'required|string',
             'stok_buku' => 'required|integer',
             'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi untuk gambar
         ]);
@@ -205,6 +217,7 @@ class LibraryController extends Controller
         $buku->judul = strtolower($request->judul);
         $buku->penerbit = $request->penerbit;
         $buku->pengarang = $request->pengarang;
+        $buku->deskripsi = $request->deskripsi;
         $buku->stok_buku = $request->stok_buku;
         $buku->save();
 

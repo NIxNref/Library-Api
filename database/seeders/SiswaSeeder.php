@@ -17,10 +17,10 @@ class SiswaSeeder extends Seeder
         $data = [
             [
                 'name' => 'Ann',
-                'kelas' => 'XI RPL 1',
-                'role_status' => 'siswa',
+                'role_status' => 'user',
                 'email' => 'ann@gmail.com',
                 'password' => Hash::make('ann12345'),
+                'is_deleted' => 0,
                 'created_at' => now(),
                 'updated_at' => now()
             ]
@@ -28,10 +28,10 @@ class SiswaSeeder extends Seeder
         foreach ($data as $val) {
             Siswa::insert([
                 'name' => $val['name'],
-                'kelas' => $val['kelas'],
                 'role_status' => $val['role_status'],
                 'email' => $val['email'],
                 'password' => $val['password'],
+                'is_deleted' => $val['is_deleted'],
                 'created_at' => $val['created_at'],
                 'updated_at' => $val['updated_at']
             ]);

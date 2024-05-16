@@ -17,11 +17,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('/login');
+    return view('landing');
+});
+
+Route::get('/login', function () {
+    return view('login');
 });
 
 Route::get('/register', function () {
-    return view('/register');
+    return view('register');
 });
 
 
@@ -37,6 +41,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/data_siswa', [LibraryController::class, 'data_siswa'])->name('data_siswa');
     Route::get('/data_admin', [LibraryController::class, 'data_admin'])->name('data_admin');
     Route::get('/data_pinjam', [TransaksisController::class, 'data_buku'])->name('data_pinjam');
+    Route::post('/data_pinjam/{id}/update-status', [TransaksisController::class, 'updateStatus'])->name('data_pinjam.updateStatus');
     Route::get('/profile_admin', [LibraryController::class, 'profile_admin'])->name('profile_admin');
 
     // delete
@@ -57,10 +62,11 @@ Route::prefix('admin')->middleware('auth')->group(function () {
 });
 
 // Siswa
-Route::prefix('siswa')->middleware('auth:siswa')->group(function () {
+Route::prefix('siswa')->middleware('auth:user')->group(function () {
     // view
     Route::get('/dashboard', [TransaksisController::class, 'index_siswa'])->name('dashboard_siswa');
     Route::get('/profile_siswa', [LibraryController::class, 'profile_siswa'])->name('profile_siswa');
+    Route::get('/detail_buku/{id}', [libraryController::class, 'detail_buku'])->name('buku.show');
     Route::get('/favourite', [LibraryController::class, 'favourite'])->name('favourite');
     Route::get('/download', [LibraryController::class, 'download'])->name('download');
 

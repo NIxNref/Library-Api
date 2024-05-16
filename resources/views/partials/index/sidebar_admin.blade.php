@@ -2,17 +2,16 @@
     id="sidenav-main">
     <a href="{{ route('dashboard_admin') }}"
         class="text-center align-items-center justify-content-center d-flex text-decoration-none"
-        style="color: inherit; cursor: default">
+        style="color: black; cursor: default">
         <iconify-icon icon="basil:book-open-solid" width="40" height="40"></iconify-icon>
         <span class="expletus-sans" style="font-size: 30px">TBPERPUS</span>
     </a>
     <hr class="horizontal dark mt-0">
-    <div class="collapse navbar-collapse w-auto " id="sidenav-collapse-main">
+    <div class="w-auto " id="sidenav-collapse-main">
         <ul class="navbar-nav">
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('admin/dashboard') ? 'active' : '' }}"
                     href="{{ route('dashboard_admin') }}">
-
                     <div
                         class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -96,6 +95,15 @@
             <br>
             <br>
             <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
             <li class="nav-item">
                 <a type="button" class="nav-link border-0 pointer" data-bs-toggle="modal"
                     data-bs-target="#logoutModal">
@@ -115,6 +123,6 @@
             </button>
             @include('partials.modals.logout_modal')
         </li> --}}
-    </div>
+    </div>  
 </aside>
 <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>

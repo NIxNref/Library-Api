@@ -25,14 +25,6 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
 
-                            <label for="kelas" class="form-label">Kelas</label>
-                            <input autocomplete="off" type="text"
-                                class="form-control @error('kelas') is-invalid @enderror" id="kelas" name="kelas"
-                                value="{{ old('kelas', $siswa->kelas) }}">
-                            @error('kelas')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-
                             <label for="email" class="form-label">email</label>
                             <input autocomplete="off" type="email"
                                 class="form-control @error('email') is-invalid @enderror" id="email" name="email"

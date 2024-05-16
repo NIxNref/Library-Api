@@ -19,7 +19,7 @@ class AuthController extends Controller
             $user->name = $request->name;
             $user->kelas = $request->kelas;
             $user->email = $request->email;
-            $user->role_status = 'siswa'; // Mengatur role_status ke 'siswa'
+            $user->role_status = 'user'; // Mengatur role_status ke 'siswa'
             $user->password = Hash::make($request->password);
             $user->save(); // Menyimpan user baru ke database
             $response  = ['status' => 200, 'message' => 'Register Succesfully', 'data' => $user];

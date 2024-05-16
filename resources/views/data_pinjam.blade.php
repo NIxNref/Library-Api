@@ -16,13 +16,13 @@
                                         <tr>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs align-middle font-weight-bolder opacity-7">
-                                                Id</th>
+                                                No. </th>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs align-middle font-weight-bolder opacity-7">
-                                                Id Siswa</th>
+                                                Id User</th>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs align-middle font-weight-bolder opacity-7">
-                                                Nama Siswa</th>
+                                                Nama User</th>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs align-middle font-weight-bolder opacity-7">
                                                 Id Buku</th>
@@ -32,6 +32,9 @@
                                             <th
                                                 class="text-uppercase text-secondary text-xxs align-middle font-weight-bolder opacity-7">
                                                 Qty</th>
+                                            <th
+                                                class="text-uppercase text-secondary text-xxs align-middle font-weight-bolder opacity-7">
+                                                Status</th>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs align-middle font-weight-bolder opacity-7">
                                                 Update At</th>
@@ -44,13 +47,13 @@
                                         @foreach ($trxs as $trx)
                                             <tr>
                                                 <td class="px-4">
-                                                    <p class="text-xs text-secondary mb-0">{{ $trx->id }}</p>
+                                                    <p class="text-xs text-secondary mb-0">{{ $loop->iteration }}</p>
                                                 </td>
                                                 <td class="px-4">
-                                                    <p class="text-xs text-secondary mb-0">{{ $trx->siswa_id }}</p>
+                                                    <p class="text-xs text-secondary mb-0">{{ $trx->user_id }}</p>
                                                 </td>
                                                 <td class="px-4">
-                                                    <p class="text-xs text-secondary mb-0">{{ $trx->name_siswa }}</p>
+                                                    <p class="text-xs text-secondary mb-0">{{ $trx->name_user }}</p>
                                                 </td>
                                                 <td class="px-4">
                                                     <p class="text-xs text-secondary mb-0">{{ $trx->buku_id }}</p>
@@ -62,15 +65,33 @@
                                                     <p class="text-xs text-secondary mb-0">{{ $trx->qty }}</p>
                                                 </td>
                                                 <td class="px-4">
+                                                    <p class="text-xs text-secondary mb-0">{{ $trx->status }}</p>
+                                                </td>
+                                                <td class="px-4">
                                                     <p class="text-xs text-secondary mb-0">{{ $trx->updated_at }}</p>
                                                 </td>
                                                 <td class="d-flex gap-3">
-                                                    <form action="{{ route('data_pinjam.delete', $trx->id) }}"
-                                                        method="POST">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger">Delete</button>
-                                                    </form>
+                                                    @if ($trx->status == 'approved' || $trx->status == 'rejected')
+                                                        <form action="{{ route('data_pinjam.delete', $trx->id) }}"
+                                                            method="POST">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                                        </form>
+                                                    @else
+                                                        <form action="{{ route('data_pinjam.updateStatus', $trx->id) }}"
+                                                            method="POST">
+                                                            @csrf
+                                                            <input type="hidden" name="status" value="approved">
+                                                            <button type="submit" class="btn btn-success">Approve</button>
+                                                        </form>
+                                                        <form action="{{ route('data_pinjam.updateStatus', $trx->id) }}"
+                                                            method="POST">
+                                                            @csrf
+                                                            <input type="hidden" name="status" value="rejected">
+                                                            <button type="submit" class="btn btn-danger">Reject</button>
+                                                        </form>
+                                                    @endif
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -84,4 +105,45 @@
             </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script>
+        // Check if there are any error messages from Laravel validation
+        @if ($errors->any())
+            // Loop through each error message and display it using SweetAlert
+            @foreach ($errors->all() as $error)
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: '{{ $error }}',
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+            @endforeach
+        @elseif (session('success'))
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: '{{ session('success') }}',
+                showConfirmButton: false,
+                timer: 3000
+            });
+        @endif
+    </script>
+    <script>
+        function confirmDelete(id) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('deleteForm_' + id).submit();
+                }
+            })
+        }
+    </script>
 @endsection

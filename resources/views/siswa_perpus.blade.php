@@ -1,7 +1,7 @@
 @extends('layouts.main_index')
 @section('main_index')
     {{-- content --}}
-    <div class="container-fluid py-4">
+    {{-- <div class="container-fluid py-4">
         <div class="container-fluid py-4">
             <div class="row">
                 <div class="col-12">
@@ -71,5 +71,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 @endsection

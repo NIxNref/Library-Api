@@ -1,6 +1,17 @@
 @extends('layouts.main_index_admin')
 @section('main_index')
     {{-- content --}}
+    {{-- <style>
+        .text-truncate {
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            height: 56px;
+        }
+    </style> --}}
 
     <div class="container-fluid py-4">
         <div class="container-fluid py-4">
@@ -33,6 +44,8 @@
                                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 Penulis</th>
                                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                Deskripsi</th>
+                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 Stok Buku</th>
                                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 Action</th>
@@ -59,6 +72,10 @@
                                                 <td class="px-3">
                                                     <p class="text-xs text-secondary mb-0"
                                                         style="text-transform:capitalize">{{ $buku->pengarang }}</p>
+                                                </td>
+                                                <td class="px-3">
+                                                    <p class="text-xs text-secondary mb-0 text-truncate"
+                                                        style="text-transform:capitalize">{{ $buku->deskripsi }}</p>
                                                 </td>
                                                 <td class="px-3">
                                                     <p class="text-xs text-secondary mb-0">{{ $buku->stok_buku }}</p>

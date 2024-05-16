@@ -45,6 +45,14 @@
                             @error('pengarang')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
+                            
+                            <label for="pengarang" class="form-label">Deskripsi</label>
+                            <textarea autocomplete="off"
+                                class="form-control @error('deskripsi') is-invalid @enderror" id="deskripsi"
+                                name="deskripsi">{{ old('deskripsi') }}</textarea>
+                            @error('deskripsi')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
 
                             <label for="stok_buku" class="form-label">Stok Buku</label>
                             <input autocomplete="off" type="number"

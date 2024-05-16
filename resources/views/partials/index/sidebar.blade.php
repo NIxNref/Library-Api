@@ -2,12 +2,12 @@
     id="sidenav-main">
     <a href="{{ route('dashboard_siswa') }}"
         class="text-center align-items-center justify-content-center d-flex text-decoration-none"
-        style="color: inherit; cursor: default">
+        style="color: black; cursor: default">
         <iconify-icon icon="basil:book-open-solid" width="40" height="40"></iconify-icon>
         <span class="expletus-sans" style="font-size: 30px">TBPERPUS</span>
     </a>
     <hr class="horizontal dark mt-0">
-    <div class="collapse navbar-collapse w-auto" id="sidenav-collapse-main">
+    <div class="w-auto" id="sidenav-collapse-main">
         <ul class="navbar-nav">
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('siswa/dashboard') ? 'active' : '' }}"
@@ -42,6 +42,38 @@
                     <span class="nav-link-text ms-1 raleway">Download</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link {{ request()->is('siswa/download') ? 'active' : '' }}"
+                    href="{{ route('download') }}">
+                    <div
+                        class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <iconify-icon icon="line-md:cloud-download-outline-loop" width="1.2em"
+                            height="1.2em"></iconify-icon>
+                    </div>
+                    <span class="nav-link-text ms-1 raleway">Settings</span>
+                </a>
+            </li>
+            <br>
+            <br>
+            <br>
+            <hr class="horizontal dark mt-0">
+            <li class="nav-item">
+                <a class="nav-link {{ request()->is('siswa/download') ? 'active' : '' }}"
+                    href="{{ route('download') }}">
+                    <div
+                        class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <iconify-icon icon="line-md:cloud-download-outline-loop" width="1.2em"
+                            height="1.2em"></iconify-icon>
+                    </div>
+                    <span class="nav-link-text ms-1 raleway">Borrow</span>
+                </a>
+            </li>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
             <br>
             <br>
             <br>

@@ -4736,6 +4736,19 @@ fieldset:disabled .btn {
   align-items: center;
   justify-content: space-between;
   padding: var(--bs-navbar-padding-y) var(--bs-navbar-padding-x);
+  color: transparent;
+}
+
+.navbar-1-landing {
+  --bs-navbar-padding-x: 1rem;
+  --bs-navbar-padding-y: 0.5rem;
+  --bs-navbar-brand-padding-y: 0.59375rem;
+  --bs-navbar-brand-margin-end: 1rem;
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .navbar>.container,
@@ -5340,6 +5353,12 @@ fieldset:disabled .btn {
 .card-img-top {
   border-top-left-radius: var(--bs-card-inner-border-radius);
   border-top-right-radius: var(--bs-card-inner-border-radius);
+}
+
+.modal-img-top {
+  border-top-left-radius: var(--bs-card-inner-border-radius);
+  border-top-right-radius: var(--bs-card-inner-border-radius);
+  width: 100%;
 }
 
 .card-img,
@@ -8317,8 +8336,11 @@ fieldset:disabled .btn {
 
 .text-truncate {
   overflow: hidden;
+  display: -webkit-box;
   text-overflow: ellipsis;
-  white-space: nowrap;
+  max-width: 200px;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
 }
 
 .vr {
@@ -20362,6 +20384,19 @@ fieldset:disabled .btn {
   background-position-x: 25%;
 }
 
+.btn-1-landing {
+  margin-right: 3rem;
+  border: none;
+  color: #6C99C3;
+  background-color: #fff;
+  padding: 0.8rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  border-radius: 10px;
+  letter-spacing: -0.025rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
 .btn:not([class*="btn-outline-"]) {
   border: 0;
 }
@@ -24962,8 +24997,11 @@ p {
 
 .text-truncate {
   overflow: hidden;
+  display: -webkit-box;
   text-overflow: ellipsis;
-  white-space: nowrap;
+  max-width: 200px;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
 }
 
 .font-weight-light {

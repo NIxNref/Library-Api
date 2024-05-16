@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->string('judul')->unique();
             $table->string('penerbit');
             $table->string('pengarang');
+            $table->text('deskripsi');
             $table->integer('stok_buku');
             $table->string('image')->nullable(); // Tambahkan kolom gambar
             $table->boolean('is_deleted')->default(0);

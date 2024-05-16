@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="createModalLabel">Tambah Akun Siswa/Siswi</h5>
+                <h5 class="modal-title" id="createModalLabel">Tambah Akun User</h5>
             </div>
             <form action="{{ route('siswa.create') }}" method="POST">
                 @csrf
@@ -13,14 +13,6 @@
                             class="form-control @error('nama') is-invalid @enderror" id="nama" name="nama"
                             value="{{ old('nama') }}">
                         @error('nama')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-
-                        <label for="kelas" class="form-label">Kelas</label>
-                        <input autocomplete="off" type="text"
-                            class="form-control @error('kelas') is-invalid @enderror" id="kelas" name="kelas"
-                            value="{{ old('kelas') }}">
-                        @error('kelas')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
 

@@ -11,7 +11,7 @@
                     @include('partials.acc.create_siswa')
                     <div class="card mb-4">
                         <div class="card-header pb-0">
-                            <h6>Data Siswa</h6>
+                            <h6>Data User</h6>
                         </div>
                         <div class="card-body px-0 pt-0 pb-2">
                             <div class="table-responsive p-0">
@@ -21,9 +21,6 @@
                                             <th
                                                 class="text-uppercase text-secondary text-xxs align-middle font-weight-bolder opacity-7">
                                                 Nama</th>
-                                            <th
-                                                class="text-uppercase text-secondary text-xxs align-middle font-weight-bolder opacity-7">
-                                                Kelas</th>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs align-middle font-weight-bolder opacity-7">
                                                 Email</th>
@@ -37,9 +34,6 @@
                                             <tr>
                                                 <td>
                                                     <p class="text-xs text-secondary mb-0 px-3">{{ $siswa->name }}</p>
-                                                </td>
-                                                <td>
-                                                    <p class="text-xs text-secondary mb-0 px-3">{{ $siswa->kelas }}</p>
                                                 </td>
                                                 <td>
                                                     <p class="text-xs text-secondary mb-0" px-3>{{ $siswa->email }}</p>

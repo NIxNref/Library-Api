@@ -5,12 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\Buku;
 use App\Models\Transaksis;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class TransaksisController extends Controller
 {
     public function index_siswa()
     {
-        $bukus = Buku::all();
+        // Mengambil data buku yang tidak dihapus
+        $bukus = Buku::where('is_deleted', 0)->get();
+                        
         return view('index_siswa', compact("bukus"));
     }
 
@@ -24,8 +27,8 @@ class TransaksisController extends Controller
         $authName = Auth::user()->name;
 
         $user = Transaksis::create([
-            'siswa_id' => $authId,
-            'name_siswa' => $authName,
+            'user_id' => $authId,
+            'name_user' => $authName,
             'buku_id' => $bukuId,
             'name_buku' => $bukuName,
             'qty' => 1,
@@ -40,17 +43,30 @@ class TransaksisController extends Controller
 
     public function data_buku()
     {
-        $trxs = Transaksis::all();
+        // Mengambil data transaksi yang tidak dihapus dan tidak ditolak
+        $trxs = Transaksis::where('is_deleted', 0)->get();
+                        
         return view('data_pinjam', compact('trxs'));
     }
+
 
     public function delete_data_pinjam($id)
     {
         $trxs = Transaksis::findOrFail($id);
         $buku = Buku::findOrFail($trxs->buku_id);
         $buku->stok_buku += 1;
+        $trxs->is_deleted = 1;
         $buku->save();
-        $trxs->delete();
+        $trxs->save();
         return redirect()->route('data_pinjam')->with('success', 'Data berhasil dihapus');
+    }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $trxs = Transaksis::findOrFail($id);
+        $trxs->status = $request->status;
+        $trxs->save();
+
+        return redirect()->back()->with('success', 'Status updated successfully.');
     }
 }
