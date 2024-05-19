@@ -15,17 +15,15 @@ return new class extends Migration {
 
             // Relation To Siswa Table
             $table->unsignedBigInteger('user_id');
-            $table->string('name_user');
-            // $table->foreign('siswa_id')->references('id')->on('siswas');
+            $table->foreign('user_id')->references('id')->on('siswas');
 
             // Relation To Buku Table
             $table->unsignedBigInteger('buku_id');
-            $table->string('name_buku');
-
-            // $table->foreign('buku_id')->references('id')->on('bukus');
+            $table->foreign('buku_id')->references('id')->on('bukus');
 
             $table->integer('qty')->default(1);
             $table->string('status')->default('pending');
+            $table->string('reject_reason')->nullable();
             $table->boolean('is_deleted')->default(0);
             $table->timestamps();
         });

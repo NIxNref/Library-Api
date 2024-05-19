@@ -40,25 +40,26 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/dashboard', [LibraryController::class, 'index_admin'])->name('dashboard_admin');
     Route::get('/data_siswa', [LibraryController::class, 'data_siswa'])->name('data_siswa');
     Route::get('/data_admin', [LibraryController::class, 'data_admin'])->name('data_admin');
-    Route::get('/data_pinjam', [TransaksisController::class, 'data_buku'])->name('data_pinjam');
-    Route::post('/data_pinjam/{id}/update-status', [TransaksisController::class, 'updateStatus'])->name('data_pinjam.updateStatus');
+    Route::get('/data_petugas', [LibraryController::class, 'data_petugas'])->name('data_petugas');
     Route::get('/profile_admin', [LibraryController::class, 'profile_admin'])->name('profile_admin');
 
     // delete
     Route::delete('/buku/{id}', [LibraryController::class, 'delete_buku'])->name('buku.delete');
     Route::delete('/data_siswa/{id}', [LibraryController::class, 'delete_siswa'])->name('siswa.delete');
     Route::delete('/data_admin/{id}', [LibraryController::class, 'delete_admin'])->name('admin.delete');
-    Route::delete('/data_pinjam/{id}', [TransaksisController::class, 'delete_data_pinjam'])->name('data_pinjam.delete');
+    Route::delete('/data_petugas/{id}', [LibraryController::class, 'delete_petugas'])->name('petugas.delete');
 
     // create
     Route::post('/buku', [LibraryController::class, 'create_buku'])->name('buku.create');
     Route::post('/data_siswa', [LibraryController::class, 'create_siswa'])->name('siswa.create');
     Route::post('/data_admin', [LibraryController::class, 'create_admin'])->name('admin.create');
+    Route::post('/data_petugas', [LibraryController::class, 'create_petugas'])->name('petugas.create');
 
     // edit
     Route::put('/buku/{id}', [LibraryController::class, 'edit_buku'])->name('buku.edit');
     Route::put('/data_siswa/{id}', [LibraryController::class, 'edit_siswa'])->name('siswa.edit');
     Route::put('/data_admin/{id}', [LibraryController::class, 'edit_admin'])->name('admin.edit');
+    Route::put('/data_petugas/{id}', [LibraryController::class, 'edit_petugas'])->name('petugas.edit');
 });
 
 // Siswa
@@ -72,6 +73,24 @@ Route::prefix('siswa')->middleware('auth:user')->group(function () {
 
     // pinjam
     Route::post('/pinjam_buku/{id}', [TransaksisController::class, 'pinjam_buku'])->name('pinjam_buku');
+});
+
+Route::prefix('petugas')->middleware('auth')->group(function () {
+    // view
+    Route::get('/dashboard', [LibraryController::class, 'index_petugas'])->name('dashboard_petugas');
+    Route::get('/profile_petugas', [LibraryController::class, 'profile_petugas'])->name('profile_petugas');
+    Route::get('/data_pinjam', [TransaksisController::class, 'data_buku'])->name('data_pinjam');
+    Route::post('/data_pinjam/{id}/update-status', [TransaksisController::class, 'updateStatus'])->name('data_pinjam.updateStatus');
+
+    // delete
+    Route::put('/data_pinjam/{id}', [TransaksisController::class, 'return_data_pinjam'])->name('data_pinjam.return');
+    Route::delete('/buku/{id}', [LibraryController::class, 'delete_buku'])->name('buku.delete');
+
+    // edit
+    Route::put('/buku/{id}', [LibraryController::class, 'edit_buku'])->name('buku.edit');
+
+    // create
+    Route::post('/buku', [LibraryController::class, 'create_buku'])->name('buku.create');
 });
 
 // Login Register Logout Action

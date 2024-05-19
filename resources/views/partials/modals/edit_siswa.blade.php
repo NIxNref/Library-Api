@@ -33,10 +33,10 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
 
-                            <label for="password" class="form-label">password</label>
+                            <label for="password" class="form-label">Password</label>
                             <input autocomplete="off" type="password"
                                 class="form-control @error('password') is-invalid @enderror" id="password"
-                                name="password" value="{{ old('password', $siswa->password) }}">
+                                name="password" value="">
                             @error('password')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror

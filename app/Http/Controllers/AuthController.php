@@ -24,23 +24,7 @@ class AuthController extends Controller
         $siswa = Siswa::where('email', $request->email)->first();
         $user = User::where('email', $request->email)->first();
 
-        // If not a student, check if it's an admin (User)
-        if (!$siswa && $user && $user->is_deleted == 0) {
-            if (!Hash::check($request->password, $user->password)) {
-                throw ValidationException::withMessages([
-                    'email' => ['The provided credentials are incorrect.'],
-                ]);
-            }
-            Auth::login($user);
-            return redirect()->route('dashboard_admin');
-        } else {
-            // Check if a student with provided email exists
-            if (!$siswa) {
-                throw ValidationException::withMessages([
-                    'email' => ['No account found with this email.'],
-                ]);
-            }
-            
+        if ($siswa) {
             // Check if student account is deleted
             if ($siswa->is_deleted == 1) {
                 throw ValidationException::withMessages([
@@ -49,14 +33,36 @@ class AuthController extends Controller
             }
 
             // Attempt login for student
-            if (!Auth::guard($siswa->role_status)->attempt($credentials)) {
+            if (!Hash::check($request->password, $siswa->password)) {
                 throw ValidationException::withMessages([
                     'email' => ['The provided credentials are incorrect.'],
                 ]);
             }
+
+            Auth::guard('user')->login($siswa);
             return redirect()->route('dashboard_siswa');
-        } 
+        } elseif ($user && $user->is_deleted == 0) {
+            // Attempt login for admin or petugas
+            if (!Hash::check($request->password, $user->password)) {
+                throw ValidationException::withMessages([
+                    'email' => ['The provided credentials are incorrect.'],
+                ]);
+            }
+
+            Auth::login($user);
+            if ($user->role_status == 'admin') {
+                return redirect()->route('dashboard_admin');
+            } elseif ($user->role_status == 'petugas') {
+                return redirect()->route('dashboard_petugas');
+            }
+        } else {
+            // No account found with the provided email
+            throw ValidationException::withMessages([
+                'email' => ['No account found with this email.'],
+            ]);
+        }
     }
+
 
 
     public function register(Request $request)

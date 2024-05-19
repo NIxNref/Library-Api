@@ -17,6 +17,13 @@ class LibraryController extends Controller
         $bukus = Buku::where('is_deleted', 0)->get();
         return view('index_admin', compact("bukus"));
     }
+    public function index_petugas()
+    {
+        $bukus = Buku::where('is_deleted', 0)->get();
+        return view('index_petugas', compact("bukus"));
+    }
+
+
 
     public function detail_buku($id) {
         $book = Buku::where('is_deleted', 0)->find($id);
@@ -147,6 +154,59 @@ class LibraryController extends Controller
     }
 
     // === End Admin ===
+
+    // === Petugas ===
+
+    public function data_petugas()
+    {
+        $petugases = User::where('is_deleted', 0)->where('role_status', 'petugas')->get();
+        return view('data_petugas', compact("petugases"));
+    }
+
+    public function create_petugas(Request $request)
+    {
+        // $datas = $request->validate([
+        //     'nama' => 'required|string',
+        //     'kelas' => 'required|string',
+        //     'email' => 'required|email|unique:siswa',
+        //     'password' => 'required|min:6',
+        // ]);
+        User::create([
+            'name' => $request->nama,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'role_status' => 'petugas',
+        ]);
+        
+
+        return redirect()->route('data_petugas')->with('success', 'Akun Petugas Berhasil Dibuat.');
+    }
+
+    public function edit_petugas(Request $request, $id)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email',
+            'role_status' => 'required|string|max:255',
+            'password' => 'required|string|min:8',
+        ]);
+
+        $validatedData['password'] = Hash::make($validatedData['password']);
+
+        $petugas = User::findOrFail($id);
+        $petugas->update($validatedData);
+        return redirect()->route('data_petugas')->with('success', 'Data Petugas berhasil diedit');
+    }
+
+    public function delete_petugas($id)
+    {
+        $petugas = User::findOrFail($id);
+        $petugas->is_deleted = 1;
+        $petugas->save();
+        return redirect()->route('data_petugas')->with('success', 'Akun Petugas berhasil dihapus');
+    }
+
+    // === End Petugas ===
     
     
     // === Auth ===
@@ -222,11 +282,11 @@ class LibraryController extends Controller
         $buku->save();
 
         if(!$buku){
-             return redirect()->route('dashboard_admin')->with('error', 'Duplicate Data Buku');
+             return redirect()->route('dashboard_petugas')->with('error', 'Duplicate Data Buku');
         }
 
         // Redirect with success message
-        return redirect()->route('dashboard_admin')->with('success', 'Buku berhasil ditambahkan');
+        return redirect()->route('dashboard_petugas')->with('success', 'Buku berhasil ditambahkan');
     }
 
 
@@ -242,7 +302,7 @@ class LibraryController extends Controller
 
         $bukus = Buku::findOrFail($id);
         $bukus->update($datas);
-        return redirect()->route('dashboard_admin')->with('success', 'Buku berhasil diedit');
+        return redirect()->route('dashboard_petugas')->with('success', 'Buku berhasil diedit');
     }
 
     public function delete_buku($id)
@@ -250,7 +310,7 @@ class LibraryController extends Controller
         $bukus = Buku::findOrFail($id);
         $bukus->is_deleted = 1;
         $bukus->save();
-        return redirect()->route('dashboard_admin')->with('success', 'Buku berhasil dihapus');
+        return redirect()->route('dashboard_petugas')->with('success', 'Buku berhasil dihapus');
     }
 
     // === End Buku ===

@@ -6,6 +6,24 @@
             min-width: 300px;
             margin-right: 5px;
         }
+
+        .card-out-of-stock {
+            position: relative;
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .card-out-of-stock::after {
+            content: 'Stok Habis';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 0, 0, 0.7);
+            color: white;
+            padding: 5px;
+            border-radius: 3px;
+        }
     </style>
 @endpush
 
@@ -14,10 +32,17 @@
     <div class=" py-4 raleway">
         <div class="d-flex flex-row flex-nowrap gap-4">
             @foreach ($bukus as $buku)
-                <a type="button" class="card b-modal" style="width: 10rem;" data-buku-id="{{ $buku->id }}">
-
-                    <img class="card-img-top" src="{{ Storage::url('public/posts/') . $buku->image }}" alt="Card image cap">
-                </a>
+                @if ($buku->stok_buku > 0)
+                    <a type="button" class="card b-modal" style="width: 10rem;" data-buku-id="{{ $buku->id }}">
+                        <img class="card-img-top" src="{{ Storage::url('public/posts/') . $buku->image }}"
+                            alt="Card image cap">
+                    </a>
+                @else
+                    <div class="card card-out-of-stock" style="width: 10rem;">
+                        <img class="card-img-top" src="{{ Storage::url('public/posts/') . $buku->image }}"
+                            alt="Card image cap">
+                    </div>
+                @endif
             @endforeach
         </div>
         <div class="modal fade" id="bukuModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -44,20 +69,36 @@
                             <button type="submit" class="btn btn-info">Pinjam</button>
                         </form>
                     </div>
-                    {{-- @if ($buku->id == $id)
-                        
-                    @endif --}}
                 </div>
             </div>
         </div>
-
     </div>
 @endsection
 @push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script>
         $(document).ready(function() {
-            $('.b-modal').on('click', function(e) {
-                // e.preventDefault();
+            @if (session('error'))
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: '{{ session('error') }}',
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+            @endif
+
+            @if (session('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: '{{ session('success') }}',
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+            @endif
+
+            $('.b-modal').on('click', function() {
                 var bukuId = $(this).data('buku-id');
                 var src = "{{ Storage::url('public/posts/') }}";
                 $.ajax({
@@ -69,33 +110,13 @@
                         $("#bukuModal .modal-book-author").text("Penulis : " + response
                             .pengarang);
                         $("#bukuModal .modal-book-description").text(response.deskripsi);
-                        // Update other modal content based on response fields
                         $('#bukuModal').modal('show');
                     },
                     error: function(xhr, status, error) {
                         console.error(error);
                     }
                 });
-                // $('#myModalPositions').modal('show').find('.modal-body').load($(this).attr('data-href'));
             });
-
-            // $(".card").click(function(event) {
-            //     event.preventDefault();
-            //     var bukuId = $(this).data('buku-id'); // Access data-buku-id attribute
-
-            //     $.ajax({
-            //         url: "{{ route('buku.show', '') }}/" + bukuId,
-            //         method: "GET",
-            //         success: function(response) {
-            //             $("#bukuModal .card-img-top").attr("src", response.image);
-            //             $("#bukuModal .modal-title").text(response.judul);
-            //             // Update other modal content based on response fields
-            //         },
-            //         error: function(xhr, status, error) {
-            //             console.error(error);
-            //         }
-            //     });
-            // });
         });
     </script>
 @endpush

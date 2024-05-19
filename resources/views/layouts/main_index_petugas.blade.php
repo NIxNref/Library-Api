@@ -21,7 +21,7 @@
     <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
     <link rel="icon" type="image/png" href="../assets/img/favicon.png">
     <title>
-        TBPERPUS
+        DASHBOARD PETUGAS
     </title>
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
@@ -44,33 +44,23 @@
     <!-- Nepcha Analytics (nepcha.com) -->
     <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
     <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
-    @stack('additional-css', false)
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
-    @include('partials.index.sidebar')
+    @include('partials.index.sidebar_petugas')
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
-        @include('partials.index.navbar')
         <!-- Navbar -->
+        @include('partials.index.navbar')
         <!-- End Navbar -->
-        <div style="overflow-y: scroll;">
-            @yield('main_index')
-        </div>
-
+        @yield('main_index')
         @include('partials.modals.logout_modal')
-
     </main>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    @stack('scripts')
     <!--   Core JS Files   -->
     <script src="../assets/js/core/popper.min.js"></script>
     <script src="../assets/js/core/bootstrap.min.js"></script>
     <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
     <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
     <script src="../assets/js/plugins/chartjs.min.js"></script>
-    
-    </script>
     <script>
         var ctx = document.getElementById("chart-bars").getContext("2d");
 
