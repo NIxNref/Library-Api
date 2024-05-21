@@ -32,23 +32,10 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ request()->is('siswa/download') ? 'active' : '' }}"
-                    href="{{ route('download') }}">
+                <a class="nav-link {{ request()->is('siswa/setting') ? 'active' : '' }}" href="{{ route('setting') }}">
                     <div
                         class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <iconify-icon icon="line-md:cloud-download-outline-loop" width="1.2em"
-                            height="1.2em"></iconify-icon>
-                    </div>
-                    <span class="nav-link-text ms-1 raleway">Download</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link {{ request()->is('siswa/download') ? 'active' : '' }}"
-                    href="{{ route('download') }}">
-                    <div
-                        class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <iconify-icon icon="line-md:cloud-download-outline-loop" width="1.2em"
-                            height="1.2em"></iconify-icon>
+                        <iconify-icon icon="icon-park-outline:setting-one" width="1.2em" height="1.2em"></iconify-icon>
                     </div>
                     <span class="nav-link-text ms-1 raleway">Settings</span>
                 </a>
@@ -58,14 +45,12 @@
             <br>
             <hr class="horizontal dark mt-0">
             <li class="nav-item">
-                <a class="nav-link {{ request()->is('siswa/download') ? 'active' : '' }}"
-                    href="{{ route('download') }}">
+                <a class="nav-link {{ request()->is('siswa/history') ? 'active' : '' }}" href="{{ route('borrow') }}">
                     <div
                         class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <iconify-icon icon="line-md:cloud-download-outline-loop" width="1.2em"
-                            height="1.2em"></iconify-icon>
+                        <iconify-icon icon="hugeicons:note-add" width="1.2em" height="1.2em"></iconify-icon>
                     </div>
-                    <span class="nav-link-text ms-1 raleway">Borrow</span>
+                    <span class="nav-link-text ms-1 raleway">History</span>
                 </a>
             </li>
             <br>

@@ -69,10 +69,12 @@ Route::prefix('siswa')->middleware('auth:user')->group(function () {
     Route::get('/profile_siswa', [LibraryController::class, 'profile_siswa'])->name('profile_siswa');
     Route::get('/detail_buku/{id}', [libraryController::class, 'detail_buku'])->name('buku.show');
     Route::get('/favourite', [LibraryController::class, 'favourite'])->name('favourite');
-    Route::get('/download', [LibraryController::class, 'download'])->name('download');
+    Route::get('/setting', [LibraryController::class, 'setting'])->name('setting');
+    Route::get('/history', [LibraryController::class, 'borrow'])->name('borrow');
 
     // pinjam
     Route::post('/pinjam_buku/{id}', [TransaksisController::class, 'pinjam_buku'])->name('pinjam_buku');
+    // Route::put('/')
 });
 
 Route::prefix('petugas')->middleware('auth')->group(function () {

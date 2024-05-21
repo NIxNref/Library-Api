@@ -2,12 +2,12 @@
 
 namespace Database\Seeders;
 
-use App\Models\Siswa;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use App\Models\User;
 
-class SiswaSeeder extends Seeder
+class PetugasSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,13 +16,6 @@ class SiswaSeeder extends Seeder
     {
         $data = [
             [
-                'name' => 'Arka',
-                'role_status' => 'user',
-                'email' => 'Arka@gmail.com',
-                'password' => Hash::make('panji12345'),
-                'is_deleted' => 0,
-                'created_at' => now(),
-                'updated_at' => now()
                 // 'name' => 'Ann',
                 // 'role_status' => 'user',
                 // 'email' => 'ann@gmail.com',
@@ -30,10 +23,17 @@ class SiswaSeeder extends Seeder
                 // 'is_deleted' => 0,
                 // 'created_at' => now(),
                 // 'updated_at' => now()
+                'name' => 'petugas',
+                'role_status' => 'petugas',
+                'email' => 'panji1@gmail.com',
+                'password' => Hash::make('panji123'),
+                'is_deleted' => 0,
+                'created_at' => now(),
+                'updated_at' => now()
             ]
         ];
         foreach ($data as $val) {
-            Siswa::insert([
+            User::insert([
                 'name' => $val['name'],
                 'role_status' => $val['role_status'],
                 'email' => $val['email'],

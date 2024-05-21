@@ -50,6 +50,14 @@ class TransaksisController extends Controller
         return view('data_pinjam', compact('trxs'));
     }
 
+    public function data_buku_siswa()
+    {
+        // Mengambil data transaksi yang tidak dihapus dan tidak ditolak
+        $trans = Transaksis::where('is_deleted', 0)->with(['user', 'buku'])->get();
+        // return $trxs;
+                        
+        return view('borrow', compact('trans'));
+    }
 
     public function return_data_pinjam($id)
     {

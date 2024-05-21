@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Buku;
 use App\Models\Siswa;
 use App\Models\User;
+use App\Models\Transaksis;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Validator;
@@ -43,16 +44,24 @@ class LibraryController extends Controller
         return view('favourite');
     }
 
-    public function download()
+    public function setting()
     {
-        return view('download');
+        return view('setting');
+    }
+    public function borrow()
+    {
+        // Mengambil data transaksi yang tidak dihapus dan tidak ditolak
+        $trans = Transaksis::where('is_deleted', 0)->with(['user', 'buku'])->get();
+        // return $trxs;
+                        
+        return view('borrow', compact('trans'));
     }
     
-    public function admin_pinjam()
-    {
-        $bukus = Buku::where('is_deleted', 0)->get();
-        return view('admin_pinjam', compact("bukus"));
-    }
+    // public function admin_pinjam()
+    // {
+    //     $bukus = Buku::where('is_deleted', 0)->get();
+    //     return view('admin_pinjam', compact("bukus"));
+    // }
 
     // === Siswa ===
     public function data_siswa()
@@ -80,18 +89,36 @@ class LibraryController extends Controller
     }
     public function edit_siswa(Request $request, $id)
     {
+        // Validasi input
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email',
             'role_status' => 'required|string|max:255',
-            'password' => 'required|string|min:8',
+            'old_password' => 'required',
+            'password' => 'required|min:8|confirmed',
         ]);
 
+        // Temukan user berdasarkan ID
+        $siswa = Siswa::findOrFail($id);
+
+        // Verifikasi password lama
+        if (!Hash::check($request->old_password, $siswa->password)) {
+            return back()->withErrors(['old_password' => 'Password lama tidak sesuai']);
+        }
+
+        // Hash password baru
         $validatedData['password'] = Hash::make($validatedData['password']);
 
-        $siswa = Siswa::findOrFail($id);
-        $siswa->update($validatedData);
-        return redirect()->route('data_siswa')->with('success', 'Data User berhasil diedit');
+        // Update data siswa
+        $siswa->update([
+            'name' => $validatedData['name'],
+            'email' => $validatedData['email'],
+            'role_status' => $validatedData['role_status'],
+            'password' => $validatedData['password'],
+        ]);
+
+        // Redirect ke route 'data_siswa' dengan pesan sukses
+        return redirect()->route('data_siswa')->with('success', 'Data user berhasil diedit');
     }
     public function delete_siswa($id)
     {
@@ -106,7 +133,7 @@ class LibraryController extends Controller
     // === Admin ===
     public function data_admin()
     {
-        $admins = User::where('is_deleted', 0)->get();
+        $admins = User::where('is_deleted', 0)->where('role_status', 'admin')->get();
         return view('data_admin', compact("admins"));
     }
 
@@ -131,17 +158,35 @@ class LibraryController extends Controller
 
     public function edit_admin(Request $request, $id)
     {
+        // Validasi input
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email',
             'role_status' => 'required|string|max:255',
-            'password' => 'required|string|min:8',
+            'old_password' => 'required',
+            'password' => 'required|min:8|confirmed',
         ]);
 
+        // Temukan user berdasarkan ID
+        $admin = User::findOrFail($id);
+
+        // Verifikasi password lama
+        if (!Hash::check($request->old_password, $admin->password)) {
+            return back()->withErrors(['old_password' => 'Password lama tidak sesuai']);
+        }
+
+        // Hash password baru
         $validatedData['password'] = Hash::make($validatedData['password']);
 
-        $admin = User::findOrFail($id);
-        $admin->update($validatedData);
+        // Update data admin
+        $admin->update([
+            'name' => $validatedData['name'],
+            'email' => $validatedData['email'],
+            'role_status' => $validatedData['role_status'],
+            'password' => $validatedData['password'],
+        ]);
+
+        // Redirect ke route 'data_admin' dengan pesan sukses
         return redirect()->route('data_admin')->with('success', 'Data Admin berhasil diedit');
     }
 
@@ -184,18 +229,36 @@ class LibraryController extends Controller
 
     public function edit_petugas(Request $request, $id)
     {
+        // Validasi input
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email',
             'role_status' => 'required|string|max:255',
-            'password' => 'required|string|min:8',
+            'old_password' => 'required',
+            'password' => 'required|min:8|confirmed',
         ]);
 
+        // Temukan user berdasarkan ID
+        $petugas = User::findOrFail($id);
+
+        // Verifikasi password lama
+        if (!Hash::check($request->old_password, $petugas->password)) {
+            return back()->withErrors(['old_password' => 'Password lama tidak sesuai']);
+        }
+
+        // Hash password baru
         $validatedData['password'] = Hash::make($validatedData['password']);
 
-        $petugas = User::findOrFail($id);
-        $petugas->update($validatedData);
-        return redirect()->route('data_petugas')->with('success', 'Data Petugas berhasil diedit');
+        // Update data petugas
+        $petugas->update([
+            'name' => $validatedData['name'],
+            'email' => $validatedData['email'],
+            'role_status' => $validatedData['role_status'],
+            'password' => $validatedData['password'],
+        ]);
+
+        // Redirect ke route 'data_petugas' dengan pesan sukses
+        return redirect()->route('data_petugas')->with('success', 'Data petugas berhasil diedit');
     }
 
     public function delete_petugas($id)
@@ -281,12 +344,20 @@ class LibraryController extends Controller
         $buku->stok_buku = $request->stok_buku;
         $buku->save();
 
-        if(!$buku){
-             return redirect()->route('dashboard_petugas')->with('error', 'Duplicate Data Buku');
+        if(!$buku) {
+            if(Auth::user()->role_status == 'admin') {
+                return redirect()->route('dashboard_admin')->with('error', 'Duplicate Data Buku');
+            } else {
+                return redirect()->route('dashboard_petugas')->with('error', 'Duplicate Data Buku');
+            }
         }
 
-        // Redirect with success message
-        return redirect()->route('dashboard_petugas')->with('success', 'Buku berhasil ditambahkan');
+        // Redirect with success message based on user role
+        if (Auth::user()->role_status == 'admin') {
+            return redirect()->route('dashboard_admin')->with('success', 'Buku berhasil ditambahkan');
+        } else {
+            return redirect()->route('dashboard_petugas')->with('success', 'Buku berhasil ditambahkan');
+        }
     }
 
 
@@ -302,7 +373,11 @@ class LibraryController extends Controller
 
         $bukus = Buku::findOrFail($id);
         $bukus->update($datas);
-        return redirect()->route('dashboard_petugas')->with('success', 'Buku berhasil diedit');
+        if (Auth::user()->role_status == 'admin') {
+            return redirect()->route('dashboard_admin')->with('success', 'Buku berhasil di edit');
+        } else {
+            return redirect()->route('dashboard_petugas')->with('success', 'Buku berhasil di edit');
+        }
     }
 
     public function delete_buku($id)
@@ -310,7 +385,11 @@ class LibraryController extends Controller
         $bukus = Buku::findOrFail($id);
         $bukus->is_deleted = 1;
         $bukus->save();
-        return redirect()->route('dashboard_petugas')->with('success', 'Buku berhasil dihapus');
+        if (Auth::user()->role_status == 'admin') {
+            return redirect()->route('dashboard_admin')->with('success', 'Buku berhasil di hapus');
+        } else {
+            return redirect()->route('dashboard_petugas')->with('success', 'Buku berhasil di hapus');
+        }
     }
 
     // === End Buku ===

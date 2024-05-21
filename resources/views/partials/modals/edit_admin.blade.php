@@ -33,13 +33,29 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
 
-                            <label for="password" class="form-label">password</label>
-                            <input autocomplete="off" type="password"
-                                class="form-control @error('password') is-invalid @enderror" id="password"
-                                name="password" value="{{ old('password', $admin->password) }}">
-                            @error('password')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                            <div class="form-group">
+                                <label for="old_password">Password Lama</label>
+                                <input type="password" class="form-control @error('old_password') is-invalid @enderror"
+                                    id="old_password" name="old_password" required>
+                                @error('old_password')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label for="password">Password Baru</label>
+                                <input type="password" class="form-control @error('password') is-invalid @enderror"
+                                    id="password" name="password" required>
+                                @error('password')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label for="password_confirmation">Konfirmasi Password Baru</label>
+                                <input type="password" class="form-control" id="password_confirmation"
+                                    name="password_confirmation" required>
+                            </div>
 
                             <label for="role_status" class="form-label">Status</label>
                             <input autocomplete="off" type="text"

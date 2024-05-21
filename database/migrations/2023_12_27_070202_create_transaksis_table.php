@@ -24,9 +24,48 @@ return new class extends Migration {
             $table->integer('qty')->default(1);
             $table->string('status')->default('pending');
             $table->string('reject_reason')->nullable();
+            $table->date('tgl_pinjam')->nullable();
+            $table->date('tgl_kembali')->nullable();
             $table->boolean('is_deleted')->default(0);
             $table->timestamps();
         });
+
+        // Add trigger for setting the return date
+        DB::statement("
+        CREATE OR REPLACE FUNCTION after_peminjaman()
+        RETURNS TRIGGER AS $$
+        BEGIN
+            IF OLD.status = 'Pending' AND NEW.status = 'approved' THEN
+                UPDATE bukus
+                SET stok_buku = stok_buku - 1
+                WHERE id = NEW.buku_id;
+
+                -- Update tanggal pengembalian
+                UPDATE transaksis
+                SET tgl_pinjam = now()
+                WHERE id = NEW.id;
+
+                UPDATE transaksis
+                SET tgl_kembali = now() + INTERVAL '7 days'
+                WHERE id = NEW.id;
+            ELSIF OLD.status = 'approved' AND NEW.status = 'dikembalikan' THEN
+                UPDATE bukus
+                SET stok_buku = stok_buku + 1
+                WHERE id = NEW.buku_id;
+            END IF;
+
+            RETURN NEW;
+        END;
+        $$ LANGUAGE plpgsql;
+        ");
+
+        DB::statement('
+            CREATE TRIGGER after_peminjaman
+            AFTER UPDATE ON transaksis
+            FOR EACH ROW
+            EXECUTE FUNCTION after_peminjaman();
+
+        ');
     }
 
     /**
