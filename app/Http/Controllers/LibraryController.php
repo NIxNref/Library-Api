@@ -6,6 +6,7 @@ use App\Models\Buku;
 use App\Models\Siswa;
 use App\Models\User;
 use App\Models\Transaksis;
+use App\Models\Ulasan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Validator;
@@ -51,12 +52,40 @@ class LibraryController extends Controller
     public function borrow()
     {
         // Mengambil data transaksi yang tidak dihapus dan tidak ditolak
-        $trans = Transaksis::where('is_deleted', 0)->with(['user', 'buku'])->get();
+        $trans = Transaksis::where('is_deleted', 0)
+            ->where('user_id', auth()->user()->id)
+            ->with(['user', 'buku'])
+            ->get();
         // return $trxs;
                         
         return view('borrow', compact('trans'));
     }
     
+    public function ulasan(Request $request, $id)
+    {
+        // Validasi input dari request
+        $request->validate([
+            'ulasan' => 'required|string',
+            'rating' => 'required|integer|min:1|max:5',
+        ]);
+
+        // Cari transaksi berdasarkan ID
+        $transaksi = Transaksis::findOrFail($id);
+
+        // Simpan ulasan ke tabel ulasan
+        Ulasan::create([
+            'user_id' => Auth::id(),
+            'buku_id' => $transaksi->buku_id,
+            'ulasan' => $request->ulasan,
+            'rating' => $request->rating,
+        ]);
+
+        $transaksi->is_reviewed = 1;
+        $transaksi->save();
+
+        // Redirect ke route 'history' dengan pesan sukses
+        return redirect()->route('borrow')->with('success', 'Success memberikan Review.');
+    }
     // public function admin_pinjam()
     // {
     //     $bukus = Buku::where('is_deleted', 0)->get();

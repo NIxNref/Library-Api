@@ -57,6 +57,11 @@
                     </div>
                     <div class="modal-body">
                         <img class="card-img-top" src="" alt="Book Image">
+                        <span class="modal-book-rating d-flex align-items-center"
+                            style="text-transform: capitalize; color: var(--bs-orange)">
+                            <iconify-icon icon="material-symbols-light:star-outline" width="24px"
+                                height="24px"></iconify-icon>
+                            <span class="rating lead"></span></span>
                         <h5 class="modal-book-title" style="text-transform: capitalize"></h5>
                         <!-- Menampilkan nama penulis -->
                         <p class="modal-book-author" style="text-transform: capitalize"></p>
@@ -101,12 +106,15 @@
             $('.b-modal').on('click', function() {
                 var bukuId = $(this).data('buku-id');
                 var src = "{{ Storage::url('public/posts/') }}";
+                // var iconStr = `<iconify-icon icon="material-symbols-light:star-outline" width="1.2em" height="1.2em"></iconify-icon>`;
                 $.ajax({
                     url: "{{ route('buku.show', '') }}/" + bukuId,
                     method: "GET",
                     success: function(response) {
                         $("#bukuModal .card-img-top").attr("src", src + '/' + response.image);
                         $("#bukuModal .modal-book-title").text(response.judul);
+                        $("#bukuModal .modal-book-rating .rating").text(response
+                            .average_rating);
                         $("#bukuModal .modal-book-author").text("Penulis : " + response
                             .pengarang);
                         $("#bukuModal .modal-book-description").text(response.deskripsi);
@@ -119,4 +127,5 @@
             });
         });
     </script>
+    <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
 @endpush

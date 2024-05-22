@@ -16,7 +16,7 @@
                                         <tr>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs align-middle font-weight-bolder opacity-7">
-                                                No. </th>
+                                                No.</th>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs align-middle font-weight-bolder opacity-7">
                                                 Nama User</th>
@@ -43,10 +43,8 @@
                                                 <td class="px-4">
                                                     <p class="text-xs text-secondary mb-0">{{ $loop->iteration }}</p>
                                                 </td>
-                                                </td>
                                                 <td class="px-4">
                                                     <p class="text-xs text-secondary mb-0">{{ $trx->user->name }}</p>
-                                                </td>
                                                 </td>
                                                 <td class="px-4">
                                                     <p class="text-xs text-secondary mb-0">{{ $trx->buku->judul }}</p>
@@ -65,18 +63,48 @@
                                                     @endif
                                                 </td>
                                                 <td class="d-flex gap-3">
-                                                    @if ($trx->status == 'Dikembalikan')
-                                                        <form action="{{ route('data_pinjam.return', $trx->id) }}"
-                                                            method="POST">
-                                                            @csrf
-                                                            @method('PUT')
-                                                            <button type="submit" class="btn btn-info">Review</button>
-                                                        </form>
+                                                    @if ($trx->status == 'Dikembalikan' && $trx->is_reviewed == 0)
+                                                        <button type="button" class="btn btn-info" data-bs-toggle="modal"
+                                                            data-bs-target="#reviewModal{{ $trx->id }}">Review</button>
+                                                        <div class="modal fade" id="reviewModal{{ $trx->id }}"
+                                                            tabindex="-1"
+                                                            aria-labelledby="reviewModalLabel{{ $trx->id }}"
+                                                            aria-hidden="true">
+                                                            <div class="modal-dialog">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title"
+                                                                            id="reviewModalLabel{{ $trx->id }}">Review
+                                                                        </h5>
+                                                                        <button type="button" class="btn-close"
+                                                                            data-bs-dismiss="modal"
+                                                                            aria-label="Close"></button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <form
+                                                                            action="{{ route('ulasan', ['id' => $trx->id]) }}"
+                                                                            method="POST">
+                                                                            @csrf
+                                                                            <textarea class="form-control" name="ulasan" rows="3" placeholder="Give A Review" required></textarea>
+                                                                            <label for="rating">Berikan nilai buku ini
+                                                                                (1-5)
+                                                                                : </label>
+                                                                            <input id="rating" type="number"
+                                                                                min="1" max="5" name="rating"
+                                                                                required>
+                                                                            <button type="submit"
+                                                                                class="btn btn-success">Submit</button>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    @elseif ($trx->status == 'Dikembalikan' && $trx->is_reviewed == 1)
+                                                        <p class="text-xs text-secondary mb-0">Sudah Review</p>
                                                     @endif
                                                 </td>
                                             </tr>
                                         @endforeach
-
                                     </tbody>
                                 </table>
                             </div>
@@ -88,9 +116,7 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script>
-        // Check if there are any error messages from Laravel validation
         @if ($errors->any())
-            // Loop through each error message and display it using SweetAlert
             @foreach ($errors->all() as $error)
                 Swal.fire({
                     icon: 'error',

@@ -70,11 +70,11 @@ Route::prefix('siswa')->middleware('auth:user')->group(function () {
     Route::get('/detail_buku/{id}', [libraryController::class, 'detail_buku'])->name('buku.show');
     Route::get('/favourite', [LibraryController::class, 'favourite'])->name('favourite');
     Route::get('/setting', [LibraryController::class, 'setting'])->name('setting');
-    Route::get('/history', [LibraryController::class, 'borrow'])->name('borrow');
+    Route::get('/borrow', [LibraryController::class, 'borrow'])->name('borrow');
 
     // pinjam
     Route::post('/pinjam_buku/{id}', [TransaksisController::class, 'pinjam_buku'])->name('pinjam_buku');
-    // Route::put('/')
+    Route::post('/ulasan/{id}', [LibraryController::class, 'ulasan'])->name('ulasan');
 });
 
 Route::prefix('petugas')->middleware('auth')->group(function () {

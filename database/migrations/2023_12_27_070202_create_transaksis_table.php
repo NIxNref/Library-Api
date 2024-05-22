@@ -26,6 +26,7 @@ return new class extends Migration {
             $table->string('reject_reason')->nullable();
             $table->date('tgl_pinjam')->nullable();
             $table->date('tgl_kembali')->nullable();
+            $table->boolean('is_reviewed')->default(0);
             $table->boolean('is_deleted')->default(0);
             $table->timestamps();
         });

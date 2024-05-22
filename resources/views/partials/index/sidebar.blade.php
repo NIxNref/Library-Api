@@ -45,7 +45,7 @@
             <br>
             <hr class="horizontal dark mt-0">
             <li class="nav-item">
-                <a class="nav-link {{ request()->is('siswa/history') ? 'active' : '' }}" href="{{ route('borrow') }}">
+                <a class="nav-link {{ request()->is('siswa/borrow') ? 'active' : '' }}" href="{{ route('borrow') }}">
                     <div
                         class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                         <iconify-icon icon="hugeicons:note-add" width="1.2em" height="1.2em"></iconify-icon>

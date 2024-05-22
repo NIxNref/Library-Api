@@ -19,13 +19,7 @@
                                                 No. </th>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs align-middle font-weight-bolder opacity-7">
-                                                Id User</th>
-                                            <th
-                                                class="text-uppercase text-secondary text-xxs align-middle font-weight-bolder opacity-7">
                                                 Nama User</th>
-                                            <th
-                                                class="text-uppercase text-secondary text-xxs align-middle font-weight-bolder opacity-7">
-                                                Id Buku</th>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs align-middle font-weight-bolder opacity-7">
                                                 Nama Buku</th>
@@ -40,9 +34,6 @@
                                                 Alasan Penolakan</th>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs align-middle font-weight-bolder opacity-7">
-                                                Update At</th>
-                                            <th
-                                                class="text-uppercase text-secondary text-xxs align-middle font-weight-bolder opacity-7">
                                                 Action</th>
                                         </tr>
                                     </thead>
@@ -53,13 +44,7 @@
                                                     <p class="text-xs text-secondary mb-0">{{ $loop->iteration }}</p>
                                                 </td>
                                                 <td class="px-4">
-                                                    <p class="text-xs text-secondary mb-0">{{ $trx->user_id }}</p>
-                                                </td>
-                                                <td class="px-4">
                                                     <p class="text-xs text-secondary mb-0">{{ $trx->user->name }}</p>
-                                                </td>
-                                                <td class="px-4">
-                                                    <p class="text-xs text-secondary mb-0">{{ $trx->buku_id }}</p>
                                                 </td>
                                                 <td class="px-4">
                                                     <p class="text-xs text-secondary mb-0">{{ $trx->buku->judul }}</p>
@@ -76,9 +61,6 @@
                                                     @else
                                                         <p class="text-xs text-secondary mb-0">null</p>
                                                     @endif
-                                                </td>
-                                                <td class="px-4">
-                                                    <p class="text-xs text-secondary mb-0">{{ $trx->updated_at }}</p>
                                                 </td>
                                                 <td class="d-flex gap-3">
                                                     @if ($trx->status == 'approved')
