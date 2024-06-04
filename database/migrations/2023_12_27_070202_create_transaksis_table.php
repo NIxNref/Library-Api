@@ -41,7 +41,7 @@ return new class extends Migration {
                 SET stok_buku = stok_buku - 1
                 WHERE id = NEW.buku_id;
 
-                -- Update tanggal pengembalian
+                -- Update tanggal peminjaman
                 UPDATE transaksis
                 SET tgl_pinjam = now()
                 WHERE id = NEW.id;
@@ -49,10 +49,15 @@ return new class extends Migration {
                 UPDATE transaksis
                 SET tgl_kembali = now() + INTERVAL '7 days'
                 WHERE id = NEW.id;
-            ELSIF OLD.status = 'approved' AND NEW.status = 'dikembalikan' THEN
+            ELSIF OLD.status = 'approved' AND NEW.status = 'Dikembalikan' THEN
                 UPDATE bukus
                 SET stok_buku = stok_buku + 1
                 WHERE id = NEW.buku_id;
+
+                -- Update tanggal pengembalian
+                UPDATE transaksis
+                SET tgl_kembali = now()
+                WHERE id = NEW.id;
             END IF;
 
             RETURN NEW;

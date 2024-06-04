@@ -58,7 +58,7 @@
                                                     <p class="text-center font-weight-bold mb-0">{{ $loop->iteration }}</p>
                                                 </td>
                                                 <td class="text-center">
-                                                    <img src="{{ Storage::url('public/posts/') . $buku->image }}"
+                                                    <img src="{{ $buku->image }}"
                                                         class="rounded" style="width: 150px">
                                                 </td>
                                                 <td class="px-3">

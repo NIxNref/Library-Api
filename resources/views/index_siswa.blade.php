@@ -34,12 +34,12 @@
             @foreach ($bukus as $buku)
                 @if ($buku->stok_buku > 0)
                     <a type="button" class="card b-modal" style="width: 10rem;" data-buku-id="{{ $buku->id }}">
-                        <img class="card-img-top" src="{{ Storage::url('public/posts/') . $buku->image }}"
+                        <img class="card-img-top" src="{{ $buku->image }}"
                             alt="Card image cap">
                     </a>
                 @else
                     <div class="card card-out-of-stock" style="width: 10rem;">
-                        <img class="card-img-top" src="{{ Storage::url('public/posts/') . $buku->image }}"
+                        <img class="card-img-top" src="{{ $buku->image }}"
                             alt="Card image cap">
                     </div>
                 @endif
@@ -105,18 +105,16 @@
 
             $('.b-modal').on('click', function() {
                 var bukuId = $(this).data('buku-id');
-                var src = "{{ Storage::url('public/posts/') }}";
-                // var iconStr = `<iconify-icon icon="material-symbols-light:star-outline" width="1.2em" height="1.2em"></iconify-icon>`;
+                
                 $.ajax({
                     url: "{{ route('buku.show', '') }}/" + bukuId,
                     method: "GET",
                     success: function(response) {
-                        $("#bukuModal .card-img-top").attr("src", src + '/' + response.image);
+                        // Set the image URL directly from the response
+                        $("#bukuModal .card-img-top").attr("src", response.image);
                         $("#bukuModal .modal-book-title").text(response.judul);
-                        $("#bukuModal .modal-book-rating .rating").text(response
-                            .average_rating);
-                        $("#bukuModal .modal-book-author").text("Penulis : " + response
-                            .pengarang);
+                        $("#bukuModal .modal-book-rating .rating").text(response.average_rating);
+                        $("#bukuModal .modal-book-author").text("Penulis : " + response.pengarang);
                         $("#bukuModal .modal-book-description").text(response.deskripsi);
                         $('#bukuModal').modal('show');
                     },

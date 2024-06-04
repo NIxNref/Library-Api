@@ -11,9 +11,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Validator;
 use Illuminate\Support\Facades\Hash;
+use App\Services\SupabaseStorageService;
 
 class LibraryController extends Controller
 {
+    protected $storageService;
+
+    public function __construct(SupabaseStorageService $storageService)
+    {
+        $this->storageService = $storageService;
+    }
     public function index_admin()
     {
         $bukus = Buku::where('is_deleted', 0)->get();
@@ -349,23 +356,19 @@ class LibraryController extends Controller
             'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi untuk gambar
         ]);
 
-        // Check if the request contains an image
         if ($request->hasFile('image')) {
             // Get the image file
             $image = $request->file('image');
-            // Define the storage path
-            $storagePath = 'public/posts';
-            // Store the image with a hashed name
-            $imageName = $image->hashName();
-            $image->storeAs($storagePath, $imageName);
+            // Upload image to Supabase
+            $imageUrl = $this->storageService->uploadImage($image);
         } else {
             // If no image is uploaded, set a default image or handle the scenario as per your requirement
-            $imageName = 'default.jpg'; // For example, you may want to use a default image
+            $imageUrl = 'default.jpg'; // For example, you may want to use a default image
         }
 
         // Create a new book record
         $buku = new Buku;
-        $buku->image = $imageName;
+        $buku->image = $imageUrl;
         $buku->judul = strtolower($request->judul);
         $buku->penerbit = $request->penerbit;
         $buku->pengarang = $request->pengarang;

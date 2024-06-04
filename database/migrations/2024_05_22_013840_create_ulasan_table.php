@@ -27,9 +27,8 @@ return new class extends Migration
 
         DB::statement("
             ALTER TABLE bukus
-            ADD COLUMN average_rating NUMERIC(3, 2);
+            ADD COLUMN average_rating NUMERIC(3, 2) DEFAULT 0.00;
         ");
-
         DB::statement("
             CREATE OR REPLACE FUNCTION update_average_rating()
             RETURNS TRIGGER AS $$

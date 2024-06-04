@@ -19,16 +19,19 @@
                                                 No.</th>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs align-middle font-weight-bolder opacity-7">
-                                                Nama User</th>
-                                            <th
-                                                class="text-uppercase text-secondary text-xxs align-middle font-weight-bolder opacity-7">
                                                 Nama Buku</th>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs align-middle font-weight-bolder opacity-7">
                                                 Qty</th>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs align-middle font-weight-bolder opacity-7">
+                                                Tanggal Peminjaman</th>
+                                            <th
+                                                class="text-uppercase text-secondary text-xxs align-middle font-weight-bolder opacity-7">
                                                 Status</th>
+                                            <th
+                                                class="text-uppercase text-secondary text-xxs align-middle font-weight-bolder opacity-7">
+                                                Tanggal Pengembalian</th>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs align-middle font-weight-bolder opacity-7">
                                                 Alasan Penolakan</th>
@@ -44,16 +47,20 @@
                                                     <p class="text-xs text-secondary mb-0">{{ $loop->iteration }}</p>
                                                 </td>
                                                 <td class="px-4">
-                                                    <p class="text-xs text-secondary mb-0">{{ $trx->user->name }}</p>
-                                                </td>
-                                                <td class="px-4">
                                                     <p class="text-xs text-secondary mb-0">{{ $trx->buku->judul }}</p>
                                                 </td>
                                                 <td class="px-4">
                                                     <p class="text-xs text-secondary mb-0">{{ $trx->qty }}</p>
                                                 </td>
                                                 <td class="px-4">
+                                                    <p class="text-xs text-secondary mb-0">{{ $trx->tgl_pinjam }}</p>
+                                                </td>
+
+                                                <td class="px-4">
                                                     <p class="text-xs text-secondary mb-0">{{ $trx->status }}</p>
+                                                </td>
+                                                <td class="px-4">
+                                                    <p class="text-xs text-secondary mb-0">{{ $trx->tgl_kembali }}</p>
                                                 </td>
                                                 <td class="px-4">
                                                     @if ($trx->status == 'rejected' && $trx->reject_reason != null)

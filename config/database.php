@@ -72,6 +72,7 @@ return [
             'username' => env('DB_USERNAME', 'forge'),
             'password' => env('DB_PASSWORD', ''),
             'charset' => 'utf8',
+            'collation' => 'Latin1_General_100_BIN2_UTF8;',
             'prefix' => '',
             'prefix_indexes' => true,
             'search_path' => 'public',
