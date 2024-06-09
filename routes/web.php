@@ -65,7 +65,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
 // Siswa
 Route::prefix('siswa')->middleware('auth:user')->group(function () {
     // view
-    Route::get('/dashboard', [TransaksisController::class, 'index_siswa'])->name('dashboard_siswa');
+    Route::get('/dashboard', [LibraryController::class, 'index_siswa'])->name('dashboard_siswa');
     Route::get('/profile_siswa', [LibraryController::class, 'profile_siswa'])->name('profile_siswa');
     Route::get('/detail_buku/{id}', [libraryController::class, 'detail_buku'])->name('buku.show');
     Route::get('/favourite', [LibraryController::class, 'favourite'])->name('favourite');
@@ -75,6 +75,7 @@ Route::prefix('siswa')->middleware('auth:user')->group(function () {
     // pinjam
     Route::post('/pinjam_buku/{id}', [TransaksisController::class, 'pinjam_buku'])->name('pinjam_buku');
     Route::post('/ulasan/{id}', [LibraryController::class, 'ulasan'])->name('ulasan');
+    Route::post('/favorite/{id}', [LibraryController::class, 'fav_siswa'])->name('fav_siswa');
 });
 
 Route::prefix('petugas')->middleware('auth')->group(function () {

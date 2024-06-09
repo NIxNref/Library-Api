@@ -7,6 +7,7 @@ use App\Models\Siswa;
 use App\Models\User;
 use App\Models\Transaksis;
 use App\Models\Ulasan;
+use App\Models\Favorite;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Validator;
@@ -32,6 +33,20 @@ class LibraryController extends Controller
         return view('index_petugas', compact("bukus"));
     }
 
+    public function index_siswa()
+    {
+        // Mengambil data buku yang tidak dihapus
+        $bukus = Buku::where('is_deleted', 0)->get();
+                        
+        return view('index_siswa', compact("bukus"));
+    }
+
+    public function show_ulasan()
+    {
+        $ulasan = Ulasan::all();
+        return $ulasan; 
+    }
+
 
 
     public function detail_buku($id) {
@@ -49,8 +64,22 @@ class LibraryController extends Controller
 
     public function favourite()
     {
-        return view('favourite');
+        $favourites = Favorite::where('is_favorite', 1)->with('buku')->get();
+        return view('favourite', compact('favourites'));
     }
+
+    public function fav_siswa(Request $request, $id)
+    {
+        $authId = Auth::user()->id;
+
+        Favorite::updateOrCreate(
+            ['user_id' => $authId, 'buku_id' => $id],
+            ['is_favorite' => 1]
+        );
+
+        return redirect()->route('favourite')->with('success', 'Buku berhasil ditambahkan ke favorit.');
+    }
+    
 
     public function setting()
     {
@@ -93,6 +122,8 @@ class LibraryController extends Controller
         // Redirect ke route 'history' dengan pesan sukses
         return redirect()->route('borrow')->with('success', 'Success memberikan Review.');
     }
+
+    
     // public function admin_pinjam()
     // {
     //     $bukus = Buku::where('is_deleted', 0)->get();
@@ -396,14 +427,27 @@ class LibraryController extends Controller
 
     public function edit_buku(Request $request, $id)
     {
-        $datas = $request->validate([
-            'judul' => 'required|string',
-            'penerbit' => 'required|string',
-            'pengarang' => 'required|string',
-            'stok_buku' => 'required|integer'
-        ]);
 
         $bukus = Buku::findOrFail($id);
+        $datas = $request->validate([
+            'judul' => 'required|string|unique:bukus',
+            'penerbit' => 'required|string',
+            'pengarang' => 'required|string',
+            'deskripsi' => 'required|string',
+            'stok_buku' => 'required|integer',
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi untuk gambar
+        ]);
+
+        if ($request->hasFile('image')) {
+            // Get the image file
+            $image = $request->file('image');
+            // Upload image to Supabase
+            $imageUrl = $this->storageService->uploadImage($image);
+        } else {
+            // If no image is uploaded, set a default image or handle the scenario as per your requirement
+            $imageUrl = 'default.jpg'; // For example, you may want to use a default image
+        }
+
         $bukus->update($datas);
         if (Auth::user()->role_status == 'admin') {
             return redirect()->route('dashboard_admin')->with('success', 'Buku berhasil di edit');

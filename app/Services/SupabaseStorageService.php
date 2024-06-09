@@ -29,10 +29,13 @@ class SupabaseStorageService
 
     public function uploadImage(UploadedFile $image)
     {
-        $imageName = $image->hashName();
-        $filePath = "public/{$this->bucket}/{$imageName}";
+        $imageName = $image->getClientOriginalName(); // Mendapatkan nama asli gambar
+        $hashName = $image->hashName(); // Mendapatkan hash dari gambar
+        $finalImageName = pathinfo($imageName, PATHINFO_FILENAME) . '_' . $hashName; // Menggabungkan nama asli dan hash
 
-        $response = $this->client->post("/storage/v1/object/{$this->bucket}/{$imageName}", [
+        $filePath = "public/{$this->bucket}/{$finalImageName}";
+
+        $response = $this->client->post("/storage/v1/object/{$this->bucket}/{$finalImageName}", [
             'headers' => [
                 'Content-Type' => $image->getClientMimeType(),
             ],
@@ -43,6 +46,6 @@ class SupabaseStorageService
             throw new \Exception('Failed to upload image to Supabase');
         }
 
-        return "{$this->url}/storage/v1/object/public/{$this->bucket}/{$imageName}";
+        return "{$this->url}/storage/v1/object/public/{$this->bucket}/{$finalImageName}";
     }
 }

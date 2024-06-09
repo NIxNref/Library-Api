@@ -14,4 +14,9 @@ class Ulasan extends Model
     protected $table = 'ulasan';
 
     protected $fillable = ['user_id', 'buku_id', 'ulasan', 'rating'];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

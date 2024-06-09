@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Buku;
+use App\Models\Ulasan;
 
 class LibraryController extends Controller
 {
@@ -21,6 +22,23 @@ class LibraryController extends Controller
         // Return the books as JSON response
         return response()->json(['data' => $bukus], 200);
     }
+
+    public function show_ulasan(Request $request, $bukuId)
+    {
+        // Fetch ulasan records by bukuId along with the associated user
+        $ulasan = Ulasan::with('user')->where('buku_id', $bukuId)->get();
+        
+        // Check if any ulasan are found
+        if ($ulasan->isEmpty()) {
+            return response()->json(['message' => 'No ulasan found for this book'], 200);
+        } else {
+            return response()->json(['data' => $ulasan], 200);
+        }
+    }
+
+
+
+
 
     public function CreateBukuA(Request $request)
     {

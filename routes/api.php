@@ -40,4 +40,6 @@ Route::post('/Createbuku', [LibraryController::class, 'CreateBukuA']);
 
 Route::get('/Getbuku', [LibraryController::class, 'getAllBuku']);
 
+Route::get('/showUlasan/{bukuId?}', [LibraryController::class, 'show_ulasan']);
+
 // === END BUKU ===

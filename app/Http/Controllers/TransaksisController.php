@@ -9,22 +9,18 @@ use Illuminate\Http\Request;
 
 class TransaksisController extends Controller
 {
-    public function index_siswa()
-    {
-        // Mengambil data buku yang tidak dihapus
-        $bukus = Buku::where('is_deleted', 0)->get();
-                        
-        return view('index_siswa', compact("bukus"));
-    }
+    
 
     public function pinjam_buku($id)
     {
+        \Log::info('ID Buku yang diterima: ' . $id);
         $buku = Buku::findOrFail($id);
         
         // Check if the book is available to borrow
         if ($buku->stok_buku == 0) {
             return redirect()->back()->with('error', 'Buku tidak tersedia untuk dipinjam');
         }
+        \Log::info('Buku yang ditemukan: ' . $buku->judul);
         
         $bukuId = $buku->id;
 
@@ -65,8 +61,8 @@ class TransaksisController extends Controller
         $buku = Buku::findOrFail($trxs->buku_id);
         
         // Increase the quantity of the book when returning
-        $buku->stok_buku += 1;
-        $buku->save();
+        // $buku->stok_buku += 1;
+        // $buku->save();
         
         // Update the transaction status to "Returned"
         $trxs->status = 'Dikembalikan';

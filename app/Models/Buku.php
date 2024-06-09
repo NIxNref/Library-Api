@@ -12,4 +12,9 @@ class Buku extends Model
     protected $guarded = [];
 
     protected $table = 'bukus';
+
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
+    }
 }
